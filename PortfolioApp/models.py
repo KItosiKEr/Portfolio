@@ -1,15 +1,18 @@
 from django.db import models
 from django import forms
 
+
 class AboutMe(models.Model):
     user = models.TextField()
     first_name = models.CharField(max_length=127)
     last_name = models.CharField(max_length=127)
     biography = models.TextField()
     photo = models.ImageField(upload_to='Image', blank=True)
+    project = models.ForeignKey('Project', on_delete=models.CASCADE, related_name='projects',null=True, )
 
     def __str__(self):
         return self.user
+
 
 class ProjectsCategory(models.Model):
     title = models.CharField(max_length=127)
@@ -19,20 +22,18 @@ class ProjectsCategory(models.Model):
 
 
 class Project(models.Model):
-    user = models.ForeignKey(AboutMe,null=True, blank=True, on_delete=models.CASCADE, related_name='project', )
+    user = models.ForeignKey(AboutMe, blank=True, on_delete=models.CASCADE, related_name='projects', null=True, )
     category = models.TextField()
     project_name = models.CharField(max_length=127)
     pre_description = models.TextField()
     description = models.TextField()
     image = models.ImageField(upload_to='Image', blank=True)
     link = models.URLField(max_length=200)
-    # date_develop = models.DateTimeField('expiration time (of ad)', default=timezone.now() + datetime.timedelta(days=30))
+    created_date = models.DateTimeField(blank=True, null=True, verbose_name='когда',auto_now_add=True)
+
 
     # def __str__(self):
-    #     return f"{self.value}"
-
-    def __str__(self):
-        return self.user
+    #     return self.user
 
 class ProjectImage(models.Model):
     project = models.ForeignKey(Project, on_delete=models.CASCADE  )
