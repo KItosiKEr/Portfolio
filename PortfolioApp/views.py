@@ -8,6 +8,8 @@ from .serializers import (AboutMeSerializers, ProjectsCategorySerializers,
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework import filters
 
 User = get_user_model()
 
@@ -15,6 +17,18 @@ User = get_user_model()
 class AboutMeView(ModelViewSet):
     queryset = AboutMe.objects.all()
     serializer_class = AboutMeSerializers
+    filter_backends=(
+        DjangoFilterBackend,filters.SearchFilter,filters.OrderingFilter
+    )
+    # filterset_fields=(
+    #     'date_of_issue',
+    # )
+    search_fields=(
+        'first_name', 'last_name',
+    )
+    ordering_fields=(
+        'id',
+    )
     # user = AboutMe.objects.get(id=1)
     # Project.objects.filter(author=user)
 

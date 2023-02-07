@@ -45,6 +45,7 @@ class AboutMeSerializers(ModelSerializer):
     class Meta:
         model = AboutMe
         fields = '__all__'
+    
         
 
 
