@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'PortfolioApp',
+    'drf_yasg',
     'djoser',
     'django_filters',
     'rest_framework.authtoken',
