@@ -10,8 +10,15 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
+from rest_framework.pagination import PageNumberPagination
 
 User = get_user_model()
+
+
+class ProjectViewPagination(PageNumberPagination):
+    page_size = 3
+    page_size_query_param = 'page_size'
+    max_page_size = 6
 
 
 class AboutMeView(ModelViewSet):
@@ -63,6 +70,7 @@ class ProjectsCategoryView(ModelViewSet):
 class ProjectView(ModelViewSet):
     queryset = Project.objects.order_by('-created_date').all()
     serializer_class = ProjectSerializers
+    pagination_class = ProjectViewPagination
 
 
 class ProjectImageView(ModelViewSet):
