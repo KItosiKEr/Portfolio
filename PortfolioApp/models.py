@@ -8,11 +8,14 @@ class AboutMe(models.Model):
     last_name = models.CharField(max_length=127)
     biography = models.TextField()
     photo = models.ImageField(upload_to='Image', blank=True)
-    project = models.ForeignKey('Project', on_delete=models.CASCADE, related_name='projects',null=True, )
+    # project = models.ForeignKey('Project', on_delete=models.CASCADE, related_name='projects', null=True, )
 
     def __str__(self):
         return self.user
 
+    @property
+    def projects_p(self):
+        return self.projects.count()
 
 class ProjectsCategory(models.Model):
     title = models.CharField(max_length=127)
@@ -41,7 +44,7 @@ class ProjectImage(models.Model):
 
 
 class Contact(models.Model):
-    user = models.ForeignKey(AboutMe, on_delete=models.CASCADE)
+    user = models.ForeignKey(AboutMe, on_delete=models.CASCADE,blank=True, null=True,)
     logo = models. ImageField(upload_to='Image',blank=True)
     link = models.URLField(max_length=200)
     name = models.CharField(max_length=127)

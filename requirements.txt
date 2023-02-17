@@ -1,4 +1,7 @@
 djoser
 Django==3.2.7
 djangorestframework==3.13.1
-Pillow
+Pillow==9.2.0
+Djangofilter==22.1
+
+

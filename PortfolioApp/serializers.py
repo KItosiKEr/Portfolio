@@ -38,15 +38,21 @@ class SendGmailSerializers(ModelSerializer):
     class Meta:
         model = SendGmail
         fields = '__all__'
-        
+
+
 
 class AboutMeSerializers(ModelSerializer):
-    # project = ProjectSerializers(many=True, read_only=True)
+    # project1 = ProjectSerializers(many=True, read_only=True)
     class Meta:
         model = AboutMe
-        fields = '__all__'
+        fields = 'id','user', 'first_name', 'last_name', 'biography', 'photo', 'projects_p',
     
-        
+
+class AboutMeDetailSerializers(ModelSerializer):
+    projects = ProjectSerializers(many=True, read_only=True)
+    class Meta:
+        model = AboutMe
+        fields = 'id','user', 'first_name', 'last_name', 'biography', 'photo', 'projects', 
 
 
 # class RegistrationSerializer(serializers.Serializer):
