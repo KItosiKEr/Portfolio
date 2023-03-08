@@ -8,13 +8,17 @@ from rest_framework.viewsets import ModelViewSet
 from .serializers import (AboutMeSerializers, ProjectsCategorySerializers,
                           ProjectSerializers, ProjectImageSerializers,
                           ContactSerializers, SendGmailSerializers,
-                          AboutMeDetailSerializers)
+                          AboutMeDetailSerializers,)
 from django.contrib.auth import get_user_model
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
 from rest_framework.pagination import PageNumberPagination
+from rest_framework.views import APIView
+from rest_framework.generics import CreateAPIView
+from rest_framework.authtoken.models import Token
+
 
 User = get_user_model()
 
@@ -38,7 +42,6 @@ class AboutMeView(ModelViewSet):
     ordering_fields=(
         'id',
     )
-  
 
     @action(methods=['post',],detail=True,serializer_class=ProjectSerializers,permission_classes=(permissions.IsAuthenticatedOrReadOnly,))
     def add_project(self ,request, *args,**kwargs):
@@ -67,6 +70,10 @@ class AboutMeView(ModelViewSet):
             return AboutMeDetailSerializers
         return super().get_serializer_class()
 
+    def perform_create(self, serializer):
+        return serializer.save(user=self.request.user)
+
+
 class ProjectsCategoryView(ModelViewSet):
     queryset = ProjectsCategory.objects.all()
     serializer_class = ProjectsCategorySerializers
@@ -93,4 +100,6 @@ class ContactView(ModelViewSet):
 class SendGmailView(ModelViewSet):
     queryset = SendGmail.objects.all()
     serializer_class = SendGmailSerializers
-# Create your views here.
+
+
+

@@ -3,7 +3,8 @@ from PortfolioApp.views import (AboutMeView, ProjectsCategoryView,
                                 ProjectView, ProjectImageView,
                                 ContactView, SendGmailView,
                                 )
-from django.urls import include
+from django.urls import include, path 
+
 
 router = DR()
 
@@ -16,6 +17,11 @@ router.register('send_gmail', SendGmailView, basename='send_gmail')
 
 
 
-urlpatterns = []
+
+
+
+urlpatterns = [
+]
+
 
 urlpatterns += router.urls
