@@ -3,6 +3,20 @@
 version: '3.7'
 
 services:
+
+  db:
+    container_name: postgres_db
+    image: postgres:12.0-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    restart: always
+    ports:
+      - "5432:5432"
+    env_file:
+      - ./.env
+    networks:
+     - my-network
+
   web:
     container_name: django_web
     restart: unless-stopped
@@ -14,12 +28,16 @@ services:
       - ./:/app
     ports:
       - 8000:8000
-    command: ["python3", "manage.py", "runserver", "0.0.0.0:8000"]
     networks:
       - my-network
+    depends_on:
+      - db
+    entrypoint: ./entrypoint.sh
+
+  
 
 volumes:
-  # postgres_data:
+  postgres_data:
   media:
   static:
 
